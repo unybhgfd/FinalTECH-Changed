@@ -14,6 +14,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,23 +29,19 @@ public class BoxListener implements Listener {
         this.height = height;
     }
 
-
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent playerDeathEvent) {
         Player player = playerDeathEvent.getEntity();
         Location location = player.getLocation();
         World world = location.getWorld();
         if (world != null) {
-            boolean haveUnorderedDust = false;
-            for (ItemStack itemStack : player.getInventory().getContents()) {
-                if (!haveUnorderedDust && FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
-                    haveUnorderedDust = true;
-                }
-            }
+            boolean haveUnorderedDust = Arrays.stream(player.getInventory().getContents())
+                    .anyMatch(FinalTechItems.UNORDERED_DUST::verifyItem); // 前提：开了死亡不掉落
 
             if (location.getY() < location.getWorld().getMinHeight()) {
                 if (haveUnorderedDust) {
-                    world.dropItem(location, FinalTechItems.BOX.getValidItem());
+                    // world.dropItem(location, FinalTechItems.BOX.getValidItem());
+                    player.getInventory().addItem(FinalTechItems.BOX.getValidItem());
                 }
             }
         }
