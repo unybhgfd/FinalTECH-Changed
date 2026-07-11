@@ -32,12 +32,18 @@ public final class ItemStackUtil {
             return AIR.clone();
         }
 
-        ItemStack safeClone = new ItemStack(itemStack.getType());
-        safeClone.setAmount(itemStack.getAmount());
-        if (itemStack.hasItemMeta()) {
-            safeClone.setItemMeta(itemStack.getItemMeta());
-        }
+        return ItemStackUtil.copyToBukkitItemStack(itemStack);
+    }
 
+    @Nonnull
+    private static ItemStack copyToBukkitItemStack(@Nonnull ItemStack itemStack) {
+        ItemStack safeClone = new ItemStack(itemStack.getType(), itemStack.getAmount());
+        if (itemStack.hasItemMeta()) {
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            if (itemMeta != null) {
+                safeClone.setItemMeta(itemMeta);
+            }
+        }
         return safeClone;
     }
 
@@ -48,7 +54,7 @@ public final class ItemStackUtil {
      * @return a cloned #{@link ItemStack}
      */
     public static ItemStack cloneItem(@Nonnull ItemStack item) {
-        return item instanceof ItemStackWrapper ? new ItemStack(item) : item.clone();
+        return item instanceof ItemStackWrapper ? ItemStackUtil.copyToBukkitItemStack(item) : item.clone();
     }
 
     /**
@@ -59,7 +65,7 @@ public final class ItemStackUtil {
      * @return a cloned #{@link ItemStack}
      */
     public static ItemStack cloneItem(@Nonnull ItemStack item, int amount) {
-        ItemStack itemStack = item instanceof ItemStackWrapper ? new ItemStack(item) : item.clone();
+        ItemStack itemStack = item instanceof ItemStackWrapper ? ItemStackUtil.copyToBukkitItemStack(item) : item.clone();
         itemStack.setAmount(amount);
         return itemStack;
     }
@@ -916,8 +922,9 @@ public final class ItemStackUtil {
      */
     @Nonnull
     public static String itemStackToString(@Nonnull ItemStack itemStack) {
+        ItemStack serializableItem = ItemStackUtil.copyToBukkitItemStack(itemStack);
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
-        yamlConfiguration.set("item", itemStack);
+        yamlConfiguration.set("item", serializableItem);
         return yamlConfiguration.saveToString();
     }
 

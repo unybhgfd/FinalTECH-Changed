@@ -38,11 +38,11 @@ import java.util.OptionalInt;
  */
 public class EtherMiner extends AbstractOperationMachine implements RecipeItem, MenuUpdater {
     // time = baseTime / logN(supplies * mul + 1)
-    private final double baseTime = ConfigUtil.getOrDefaultItemSetting(60, this, "time");
-    private final double logN = ConfigUtil.getOrDefaultItemSetting(100, this, "logN");
-    private final double mul = ConfigUtil.getOrDefaultItemSetting(0.01, this, "mul");
-    private final double add = ConfigUtil.getOrDefaultItemSetting(0.08, this, "add");
-    private final double random = ConfigUtil.getOrDefaultItemSetting(0.1, this, "random");
+    private final double baseTime = ConfigUtil.getOrDefaultItemSetting(12, this, "time");
+    private final double logN = ConfigUtil.getOrDefaultItemSetting(8, this, "logN");
+    private final double mul = ConfigUtil.getOrDefaultItemSetting(0.15, this, "mul");
+    private final double add = ConfigUtil.getOrDefaultItemSetting(1.2, this, "add");
+    private final double random = ConfigUtil.getOrDefaultItemSetting(0.08, this, "random");
 
     public EtherMiner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);

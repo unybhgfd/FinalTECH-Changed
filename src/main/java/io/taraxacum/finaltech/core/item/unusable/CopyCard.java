@@ -93,7 +93,7 @@ public class CopyCard extends UnusableSlimefunItem implements RecipeItem, ValidI
     @Nonnull
     public ItemStack getValidItem(@Nonnull ItemStack stringItem, @Nonnull String amount) {
         ItemStack result = ItemStackUtil.cloneItem(FinalTechItemStacks.COPY_CARD);
-        ItemStack temp = new ItemStack(stringItem);
+        ItemStack temp = ItemStackUtil.cloneItem(stringItem);
 
         result.setAmount(1);
         StringItemUtil.setItemInCard(result, temp, amount);

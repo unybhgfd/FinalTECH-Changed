@@ -168,7 +168,7 @@ public final class FinalTechRecipes {
             SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE,
             SlimefunItems.ENDER_RUNE, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.UNORDERED_DUST, SlimefunItems.ENDER_RUNE,
             SlimefunItems.ENDER_RUNE, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.SHINE, SlimefunItems.STAFF_ELEMENTAL, FinalTechItemStacks.UNORDERED_DUST, SlimefunItems.ENDER_RUNE,
-            SlimefunItems.ENDER_RUNE, FinalTechItemStacks.UNORDERED_DUST, SlimefunItems.MAGIC_EYE_OF_ENDER, new ItemStack(Material.STRING), FinalTechItemStacks.UNORDERED_DUST, SlimefunItems.ENDER_RUNE,
+            SlimefunItems.ENDER_RUNE, FinalTechItemStacks.UNORDERED_DUST, SlimefunItems.MAGIC_EYE_OF_ENDER, new ItemStack(SlimefunItems.COPPER_WIRE), FinalTechItemStacks.UNORDERED_DUST, SlimefunItems.ENDER_RUNE,
             SlimefunItems.ENDER_RUNE, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.UNORDERED_DUST, SlimefunItems.ENDER_RUNE,
             SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_RUNE
     };
@@ -728,23 +728,23 @@ public final class FinalTechRecipes {
     };
     public static final ItemStack[] POINT_TRANSFER = new ItemStack[]{
             new ItemStack(Material.TRIPWIRE_HOOK), new ItemStack(Material.CHAIN), new ItemStack(Material.TRIPWIRE_HOOK),
-            new ItemStack(Material.STRING), FinalTechItemStacks.BASIC_FRAME_MACHINE, new ItemStack(Material.STRING),
+            new ItemStack(SlimefunItems.COPPER_WIRE), FinalTechItemStacks.BASIC_FRAME_MACHINE, new ItemStack(SlimefunItems.COPPER_WIRE),
             new ItemStack(Material.TRIPWIRE_HOOK), new ItemStack(Material.CHAIN), new ItemStack(Material.TRIPWIRE_HOOK)
     };
     public static final ItemStack[] MESH_TRANSFER = new ItemStack[]{
             new ItemStack(Material.HOPPER), new ItemStack(Material.TRIPWIRE_HOOK), new ItemStack(Material.CHAIN),
-            new ItemStack(Material.HOPPER), FinalTechItemStacks.BASIC_FRAME_MACHINE, new ItemStack(Material.STRING),
+            new ItemStack(Material.HOPPER), FinalTechItemStacks.BASIC_FRAME_MACHINE, new ItemStack(SlimefunItems.COPPER_WIRE),
             new ItemStack(Material.HOPPER), new ItemStack(Material.TRIPWIRE_HOOK), new ItemStack(Material.CHAIN)
     };
     public static final ItemStack[] LINE_TRANSFER = new ItemStack[]{
-            new ItemStack(Material.STRING), new ItemStack(Material.TRIPWIRE_HOOK), new ItemStack(Material.STRING),
+            new ItemStack(SlimefunItems.COPPER_WIRE), new ItemStack(Material.TRIPWIRE_HOOK), new ItemStack(SlimefunItems.COPPER_WIRE),
             new ItemStack(Material.TRIPWIRE_HOOK), FinalTechItemStacks.BASIC_FRAME_MACHINE, new ItemStack(Material.TRIPWIRE_HOOK),
             new ItemStack(Material.CHEST), new ItemStack(Material.CHEST), new ItemStack(Material.CHEST)
     };
     public static final ItemStack[] LOCATION_TRANSFER = new ItemStack[]{
             new ItemStack(Material.CHAIN), new ItemStack(Material.CHEST), new ItemStack(Material.CHAIN),
             new ItemStack(Material.TRIPWIRE_HOOK), FinalTechItemStacks.BASIC_FRAME_MACHINE, new ItemStack(Material.TRIPWIRE_HOOK),
-            new ItemStack(Material.TRIPWIRE_HOOK), new ItemStack(Material.STRING), new ItemStack(Material.TRIPWIRE_HOOK)
+            new ItemStack(Material.TRIPWIRE_HOOK), new ItemStack(SlimefunItems.COPPER_WIRE), new ItemStack(Material.TRIPWIRE_HOOK)
     };
     public static final ItemStack[] ADVANCED_POINT_TRANSFER = new ItemStack[]{
             ItemStackUtil.cloneItem(FinalTechItemStacks.GEARWHEEL, 16),ItemStackUtil.cloneItem(FinalTechItemStacks.ORDERED_DUST, 2),ItemStackUtil.cloneItem(FinalTechItemStacks.GEARWHEEL, 16),
@@ -824,7 +824,7 @@ public final class FinalTechRecipes {
             SlimefunItems.PORTABLE_DUSTBIN, new ItemStack(Material.COBBLESTONE), SlimefunItems.PORTABLE_DUSTBIN,
             SlimefunItems.PORTABLE_DUSTBIN, SlimefunItems.PORTABLE_DUSTBIN, SlimefunItems.PORTABLE_DUSTBIN
     };
-    public static final ItemStack[] EQUIVALENT_EXCHANGE_TABLE = new ItemStack[]{  
+    public static final ItemStack[] EQUIVALENT_EXCHANGE_TABLE = new ItemStack[]{
             FinalTechItemStacks.BOX, FinalTechItemStacks.GEARWHEEL, FinalTechItemStacks.GEARWHEEL, FinalTechItemStacks.GEARWHEEL, FinalTechItemStacks.GEARWHEEL, FinalTechItemStacks.BOX,
             FinalTechItemStacks.GEARWHEEL, FinalTechItemStacks.ENERGY_CARD_B, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.ENERGY_CARD_B, FinalTechItemStacks.GEARWHEEL,
             FinalTechItemStacks.GEARWHEEL, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.SHINE, FinalTechItemStacks.SHINE, FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.GEARWHEEL,
