@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,16 @@ public class BoxListener implements Listener {
         Location location = player.getLocation();
         World world = location.getWorld();
         if (world != null) {
-            int maxHeight = world.getMaxHeight();
-            if (location.getY() >= maxHeight + this.height) {
+            int minHeight = world.getMinHeight();
+
+            boolean haveUnorderedDust = false;
+            for (ItemStack itemStack : player.getInventory().getContents()) {
+                if (!haveUnorderedDust && FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
+                    haveUnorderedDust = true;
+                }
+            }
+
+            if (location.getY() <= minHeight + this.height) {
                 EntityDamageEvent lastDamageEvent = player.getLastDamageCause();
                 if (lastDamageEvent != null && EntityDamageEvent.DamageCause.SUICIDE.equals(lastDamageEvent.getCause())) {
                     Optional<PlayerProfile> playerProfile = PlayerProfile.find(player);
