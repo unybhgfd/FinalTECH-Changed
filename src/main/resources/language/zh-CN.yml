@@ -461,7 +461,7 @@ items:
         lore:
           - '{color:normal}将在以下事件中生成:'
           - '{color:normal}玩家受到伤害'
-          - '{color:normal}且玩家此时比世界高度下限低'
+          - '{color:normal}且玩家此时比世界高度下限低，未携带 {id:_FINALTECH_UNORDERED_DUST}'
           - '{color:normal}玩家需携带 {id:_FINALTECH_BOX}'
           - '{color:normal}如果你身上携带了额外的 {id:_FINALTECH_SHINE} 你将无法在上述事件中获得到耀'
       '2':

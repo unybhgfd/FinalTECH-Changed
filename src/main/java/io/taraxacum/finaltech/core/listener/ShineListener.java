@@ -58,15 +58,18 @@ public class ShineListener implements Listener {
             if (entity instanceof Player player && location.getWorld() != null && location.getY() < location.getWorld().getMinHeight()) {
                 boolean haveBox = false;
                 boolean haveShine = false;
+                boolean haveDust = false;
                 for (ItemStack itemStack : player.getInventory().getContents()) {
                     if (!haveBox && FinalTechItems.BOX.verifyItem(itemStack)) {
                         haveBox = true;
                         itemStack.setAmount(0);
                     } else if (FinalTechItems.SHINE.verifyItem(itemStack)) {
                         haveShine = true;
+                    } else if (FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
+                        haveDust = true;
                     }
                 }
-                if (haveBox) {
+                if (haveBox && !haveShine && !haveDust) {
                     Research research = FinalTechItems.SHINE.getResearch();
                     Optional<PlayerProfile> playerProfile = PlayerProfile.find(player);
                     boolean unlock; // 是否解锁物品的研究
