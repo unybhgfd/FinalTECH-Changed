@@ -35,8 +35,6 @@ public class BoxListener implements Listener {
         Location location = player.getLocation();
         World world = location.getWorld();
         if (world != null) {
-            int minHeight = world.getMinHeight();
-
             boolean haveUnorderedDust = false;
             for (ItemStack itemStack : player.getInventory().getContents()) {
                 if (!haveUnorderedDust && FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
@@ -45,17 +43,7 @@ public class BoxListener implements Listener {
             }
 
             if (location.getY() < location.getWorld().getMinHeight()) {
-                EntityDamageEvent lastDamageEvent = player.getLastDamageCause();
-                if (lastDamageEvent != null && EntityDamageEvent.DamageCause.SUICIDE.equals(lastDamageEvent.getCause())) {
-                    Optional<PlayerProfile> playerProfile = PlayerProfile.find(player);
-                    if (playerProfile.isPresent()) {
-                        List<Research> researchList = new ArrayList<>(playerProfile.get().getResearches());
-                        if (!researchList.isEmpty()) {
-                            playerProfile.get().setResearched(researchList.get(FinalTechChanged.getRandom().nextInt(researchList.size())), false);
-                        }
-                        player.sendMessage(FinalTechChanged.getLanguageString("items", "_FINALTECH_BOX", "message"));
-                    }
-                } else {
+                if (haveUnorderedDust) {
                     world.dropItem(location, FinalTechItems.BOX.getValidItem());
                 }
             }

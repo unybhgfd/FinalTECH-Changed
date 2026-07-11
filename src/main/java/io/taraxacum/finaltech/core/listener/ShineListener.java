@@ -48,31 +48,6 @@ public class ShineListener implements Listener {
     private final Map<Player, Integer> obtainCount = new HashMap<>();
 
     /**
-     * Player will lose all "shine" while dead in low place.
-     */
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent playerDeathEvent) {
-        Player player = playerDeathEvent.getEntity();
-        boolean haveBox = false;
-
-        boolean inCurse = false;
-        boolean inLowPlace = false;
-        Location location = playerDeathEvent.getEntity().getLocation();
-        if (location.getY() < Objects.requireNonNull(location.getWorld()).getMinHeight() - 64) {
-            inLowPlace = true;
-        }
-        if (TaskTicker.has(player, LivingEntity.class, VoidCurse.ID)) {
-            inCurse = true;
-        }
-
-        if (inCurse || inLowPlace) {
-            if (player.getLastDamageCause() != null && EntityDamageEvent.DamageCause.VOID.equals(player.getLastDamageCause().getCause())) {
-                playerDeathEvent.setDeathMessage(FinalTechChanged.getLanguageString("effect", "VOID_CURSE", "message", "death").replace("{1}", player.getName()));
-            }
-        }
-    }
-
-    /**
      * Player will get a shine while holding item box.
      */
     @EventHandler
@@ -83,29 +58,27 @@ public class ShineListener implements Listener {
             if (entity instanceof Player player && location.getWorld() != null && location.getY() < location.getWorld().getMinHeight()) {
                 boolean haveBox = false;
                 boolean haveShine = false;
-                int shineCount = 0;
                 for (ItemStack itemStack : player.getInventory().getContents()) {
                     if (!haveBox && FinalTechItems.BOX.verifyItem(itemStack)) {
                         haveBox = true;
                         itemStack.setAmount(0);
                     } else if (FinalTechItems.SHINE.verifyItem(itemStack)) {
-                        shineCount += itemStack.getAmount();
                         haveShine = true;
                     }
                 }
-                if (haveBox || shineCount > 0) {
+                if (haveBox) {
                     Research research = FinalTechItems.SHINE.getResearch();
                     Optional<PlayerProfile> playerProfile = PlayerProfile.find(player);
-                    boolean unlock;
+                    boolean unlock; // 是否解锁物品的研究
                     if (research == null) {
                         unlock = true;
                     } else unlock = playerProfile.isPresent() && playerProfile.get().getResearches().contains(research);
 
-                    int obtain = this.obtainCount.getOrDefault(player, 1);
+                    int obtain = this.obtainCount.getOrDefault(player, 1); // 获得耀的次数加上1
                     if (!player.isFlying() && haveBox && !player.isDead() && unlock) {
                         Vector nowVector = player.getVelocity().clone();
                         Location nowLocation = player.getLocation();
-                        Location newLocation = nowLocation.add(
+                        Location newLocation = nowLocation.add( // x&z随机运动，获得耀的次数越多，范围越大
                                 FinalTechChanged.getRandom().nextDouble() * this.baseTeleportRange * (1 + obtain * this.mulTeleportRange) * 2 - this.baseTeleportRange * (1 + obtain * this.mulTeleportRange),
                                 0,
                                 FinalTechChanged.getRandom().nextDouble() * this.baseTeleportRange * (1 + obtain * this.mulTeleportRange) - this.baseTeleportRange * (1 + obtain * this.mulTeleportRange));
@@ -114,7 +87,7 @@ public class ShineListener implements Listener {
                         PlayerInventory playerInventory = player.getInventory();
                         int[] ints = JavaUtil.generateRandomInts(playerInventory.getSize() - playerInventory.getArmorContents().length);
                         if (!haveShine)
-                            for (int anInt : ints) {
+                            for (int anInt : ints) { // 替换随机槽位为耀
                                 if (ItemStackUtil.isItemNull(playerInventory.getItem(anInt))) {
                                     playerInventory.setItem(anInt, ItemStackUtil.cloneItem(FinalTechItems.SHINE.getValidItem(), 1));
                                     break;
