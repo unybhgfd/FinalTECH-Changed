@@ -44,7 +44,7 @@ public class BoxListener implements Listener {
                 }
             }
 
-            if (location.getY() <= minHeight + this.height) {
+            if (location.getY() < location.getWorld().getMinHeight()) {
                 EntityDamageEvent lastDamageEvent = player.getLastDamageCause();
                 if (lastDamageEvent != null && EntityDamageEvent.DamageCause.SUICIDE.equals(lastDamageEvent.getCause())) {
                     Optional<PlayerProfile> playerProfile = PlayerProfile.find(player);

@@ -80,7 +80,7 @@ public class ShineListener implements Listener {
         if (EntityDamageEvent.DamageCause.VOID.equals(entityDamageEvent.getCause()) && EntityType.PLAYER.equals(entityDamageEvent.getEntityType())) {
             Entity entity = entityDamageEvent.getEntity();
             Location location = entity.getLocation();
-            if (entity instanceof Player player && location.getWorld() != null && location.getY() < location.getWorld().getMinHeight() - 64) {
+            if (entity instanceof Player player && location.getWorld() != null && location.getY() < location.getWorld().getMinHeight()) {
                 boolean haveBox = false;
                 boolean haveShine = false;
                 int shineCount = 0;
