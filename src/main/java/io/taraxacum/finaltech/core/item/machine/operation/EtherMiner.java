@@ -8,7 +8,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.taraxacum.common.util.MathUtil;
 import io.taraxacum.finaltech.FinalTechChanged;
-import io.taraxacum.finaltech.FinalTechChanged;
 import io.taraxacum.finaltech.core.interfaces.MenuUpdater;
 import io.taraxacum.finaltech.core.interfaces.RecipeItem;
 import io.taraxacum.finaltech.core.menu.AbstractMachineMenu;
@@ -93,22 +92,11 @@ public class EtherMiner extends AbstractOperationMachine implements RecipeItem, 
                 }
             }
         } else if (etherAmount > 0) {
-            ItemStack unorderedDustItemStack = null;
-            for (int slot : this.getInputSlot()) {
-                ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                if (FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
-                    unorderedDustItemStack = itemStack;
-                    break;
-                }
-            }
-            if (unorderedDustItemStack != null) {
-                etherMinerOperation = new EtherMinerOperation((int) (this.baseTime / MathUtil.getLog(this.logN, etherAmount * this.mul + 1 + this.add) * (1 + FinalTechChanged.getRandom().nextDouble(this.random))), etherAmount);
-                boolean startOperation = this.getMachineProcessor().startOperation(location, etherMinerOperation);
-                if (startOperation) {
-                    unorderedDustItemStack.setAmount(unorderedDustItemStack.getAmount() - 1);
-                } else {
-                    etherMinerOperation = null;
-                }
+            etherMinerOperation = new EtherMinerOperation((int) (this.baseTime / MathUtil.getLog(this.logN, etherAmount * this.mul + 1 + this.add) * (1 + FinalTechChanged.getRandom().nextDouble(this.random))), etherAmount);
+            boolean startOperation = this.getMachineProcessor().startOperation(location, etherMinerOperation);
+            if (startOperation) {
+            } else {
+                etherMinerOperation = null;
             }
         } else if (etherAmount == 0) {
             etherAmount = FinalTechItems.ETHER.getDefaultSupply(block.getWorld().getEnvironment(), block.getBiome()) + FinalTechChanged.getRandom().nextInt(1 + FinalTechItems.ETHER.getMaxDeviation());

@@ -3447,7 +3447,7 @@ items:
       '1':
         name: '{color:passive}机制'
         lore:
-          - '{color:normal}输入 {id:_FINALTECH_UNORDERED_DUST} {color:normal}以输出 {id:_FINALTECH_ETHER}
+          - '{color:normal}挖掘 {id:_FINALTECH_ETHER}
           {color:normal}'
           - ''
           - '{color:normal}需要扫描地理资源, 速率与当前区块以太数量成反比(TIPS:末地以太更多哦~)'

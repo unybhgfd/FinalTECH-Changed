@@ -30,7 +30,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.List;
- 
+
 public class EquivalentExchangeTable extends AbstractManualMachine implements RecipeItem {
     private final String key = "value";
 
@@ -89,6 +89,13 @@ public class EquivalentExchangeTable extends AbstractManualMachine implements Re
 
     private String doCraft(@Nonnull String value, @Nonnull BlockMenu blockMenu, int amount) {
         if (StringNumberUtil.compare(value, StringNumberUtil.ZERO) <= 0) {
+            // 零价值输出 BUG
+            ItemStack itemStack = FinalTechItems.BUG.getItem();
+
+            // 如果输出槽还能放下至少 1 个该物品
+            if (MachineUtil.calMaxMatch(blockMenu.toInventory(), this.getOutputSlot(), List.of(new ItemAmountWrapper(itemStack))) >= 1) {
+                blockMenu.pushItem(itemStack, this.getOutputSlot());
+            }
             return StringNumberUtil.ZERO;
         }
 
