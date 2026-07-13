@@ -7,17 +7,15 @@ import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
  * @since 2.4
  */
 public class EtherMinerOperation implements MachineOperation {
-    private final int etherAmount;
-    private final int totalTicks;
+    public static final int TOTAL_TICKS = 2*60 * 5;
     private int tick;
 
-    public EtherMinerOperation(int totalTicks, int etherAmount) {
-        this.totalTicks = totalTicks;
-        this.etherAmount = etherAmount;
+    public EtherMinerOperation() {
     }
 
-    public int getEtherAmount() {
-        return etherAmount;
+    @Override
+    public int getTotalTicks() {
+        return TOTAL_TICKS;
     }
 
     @Override
@@ -28,10 +26,5 @@ public class EtherMinerOperation implements MachineOperation {
     @Override
     public int getProgress() {
         return this.tick;
-    }
-
-    @Override
-    public int getTotalTicks() {
-        return this.totalTicks;
     }
 }

@@ -74,9 +74,6 @@ public class EtherMiner extends AbstractOperationMachine implements RecipeItem, 
         Location location = block.getLocation();
         BlockMenu blockMenu = BlockStorage.getInventory(location);
 
-        OptionalInt supplies = Slimefun.getGPSNetwork().getResourceManager().getSupplies(FinalTechItems.ETHER, block.getWorld(), block.getX() >> 4, block.getZ() >> 4);
-        int etherAmount = supplies.isPresent() ? supplies.getAsInt() : -1;
-
         EtherMinerOperation etherMinerOperation = (EtherMinerOperation) this.getMachineProcessor().getOperation(location);
         if (etherMinerOperation != null) {
             etherMinerOperation.addProgress(1);
@@ -84,23 +81,17 @@ public class EtherMiner extends AbstractOperationMachine implements RecipeItem, 
                 ItemStack outputItemStack = FinalTechItems.ETHER.getValidItem();
                 if (MachineUtil.calMaxMatch(blockMenu.toInventory(), this.getOutputSlot(), outputItemStack) > 0) {
                     this.getMachineProcessor().endOperation(location);
-                    if (etherMinerOperation.getEtherAmount() == etherAmount--) {
-                        blockMenu.pushItem(outputItemStack, this.getOutputSlot());
-                        Slimefun.getGPSNetwork().getResourceManager().setSupplies(FinalTechItems.ETHER, block.getWorld(), block.getX() >> 4, block.getZ() >> 4, Math.max(0, etherAmount));
-                    }
+                    blockMenu.pushItem(outputItemStack, this.getOutputSlot());
                     etherMinerOperation = null;
                 }
             }
-        } else if (etherAmount > 0) {
-            etherMinerOperation = new EtherMinerOperation((int) (this.baseTime / MathUtil.getLog(this.logN, etherAmount * this.mul + 1 + this.add) * (1 + FinalTechChanged.getRandom().nextDouble(this.random))), etherAmount);
+        } else {
+            etherMinerOperation = new EtherMinerOperation();
             boolean startOperation = this.getMachineProcessor().startOperation(location, etherMinerOperation);
             if (startOperation) {
             } else {
                 etherMinerOperation = null;
             }
-        } else if (etherAmount == 0) {
-            etherAmount = FinalTechItems.ETHER.getDefaultSupply(block.getWorld().getEnvironment(), block.getBiome()) + FinalTechChanged.getRandom().nextInt(1 + FinalTechItems.ETHER.getMaxDeviation());
-            Slimefun.getGPSNetwork().getResourceManager().setSupplies(FinalTechItems.ETHER, block.getWorld(), block.getX() >> 4, block.getZ() >> 4, Math.max(0, etherAmount));
         }
 
         if (blockMenu.hasViewer()) {
@@ -112,8 +103,7 @@ public class EtherMiner extends AbstractOperationMachine implements RecipeItem, 
             }
             this.updateMenu(blockMenu, EtherMinerMenu.STATUS_SLOT, this,
                     String.valueOf(progress),
-                    String.valueOf(totalTicks),
-                    String.valueOf(etherAmount));
+                    String.valueOf(totalTicks));
         }
     }
 
@@ -122,6 +112,6 @@ public class EtherMiner extends AbstractOperationMachine implements RecipeItem, 
         RecipeUtil.registerDescriptiveRecipeWithBorder(FinalTechChanged.getLanguageManager(), this,
                 String.valueOf(this.baseTime));
 
-        this.registerRecipe(FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.ETHER);
+        // this.registerRecipe(FinalTechItemStacks.UNORDERED_DUST, FinalTechItemStacks.ETHER);
     }
 }
