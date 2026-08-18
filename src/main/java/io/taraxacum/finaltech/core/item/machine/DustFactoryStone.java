@@ -70,11 +70,18 @@ public class DustFactoryStone extends AbstractMachine implements RecipeItem {
         }
 
         Set<Integer> amountList = new HashSet<>(this.getInputSlot().length);
-        ItemWrapper firstItem = new ItemWrapper(blockMenu.getItemInSlot(this.getInputSlot()[0]));
+        ItemStack firstStack = blockMenu.getItemInSlot(this.getInputSlot()[0]);
+        if (ItemStackUtil.isItemNull(firstStack)) {
+            return;
+        }
+        ItemWrapper firstItem = new ItemWrapper(firstStack);
         boolean allSameItem = true;
 
         for (int slot : this.getInputSlot()) {
             ItemStack itemStack = blockMenu.getItemInSlot(slot);
+            if (ItemStackUtil.isItemNull(itemStack)) {
+                return;
+            }
             amountList.add(itemStack.getAmount());
             if (allSameItem && !ItemStackUtil.isItemSimilar(firstItem, itemStack)) {
                 allSameItem = false;

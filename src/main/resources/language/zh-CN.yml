@@ -450,6 +450,12 @@ items:
           - '{color:normal}将在以下事件中生成:'
           - '{color:normal}玩家死亡'
           - '{color:normal}且玩家此时比世界高度下限低并携带 {id:_FINALTECH_UNORDERED_DUST}'
+      '2':
+        name: '{color:initiative}消耗经验'
+        lore:
+          - '{color:normal}达到获取 {id:_FINALTECH_BOX} 的条件'
+          - '{color:normal}并且背包中含有 n 个 {id:_FINALTECH_ORDERED_DUST} {color:normal}时'
+          - '{color:normal}消耗最多 n 级经验，同时增多得到 {id:_FINALTECH_BOX} 的数量'
     message: '{color:normal}你忘记了一些:D'
     lore:
       - '&7恶臭物品 114514'
@@ -462,7 +468,7 @@ items:
           - '{color:normal}将在以下事件中生成:'
           - '{color:normal}玩家受到伤害'
           - '{color:normal}且玩家此时比世界高度下限低，未携带 {id:_FINALTECH_UNORDERED_DUST}'
-          - '{color:normal}玩家需携带 {id:_FINALTECH_BOX}'
+          - '{color:normal}玩家需携带适量的 {id:_FINALTECH_BOX}'
           - '{color:normal}如果你身上携带了额外的 {id:_FINALTECH_SHINE} 你将无法在上述事件中获得到耀'
       '2':
         name: '{color:negative}贴士'
@@ -470,6 +476,12 @@ items:
           - '{color:normal}当手持 {id:_FINALTECH_SHINE} {color:normal}或 {id:_FINALTECH_BOX}
           时'
           - '{color:normal}玩家受到的虚空伤害将会大大增加'
+      '3':
+        name: '{color:initiative}消耗经验'
+        lore:
+          - '{color:normal}达到获取 {id:_FINALTECH_SHINE} 的条件'
+          - '{color:normal}并且背包中含有 n 个 {id:_FINALTECH_ORDERED_DUST} {color:normal}时'
+          - '{color:normal}消耗最多 n 级经验，同时增多得到 {id:_FINALTECH_SHINE} 的数量和消耗 {id:_FINALTECH_BOX} 的数量'
     message: '{color:normal}你忘记了一些:D'
     lore:
       - '&7哼哼哼啊啊啊啊'
@@ -3268,6 +3280,7 @@ items:
         name: '{color:stress}生产方法'
         lore:
           - '{color:normal}在 {id:_FINALTECH_ETHER_MINER} {color:normal}中制作'
+          - '{color:normal}也可以通过开采自然资源获得'
         output: _FINALTECH_ETHER_MINER
     lore:
       - '&7哼哼哼啊啊啊啊啊不够用'
@@ -3450,8 +3463,8 @@ items:
           - '{color:normal}挖掘 {id:_FINALTECH_ETHER}
           {color:normal}'
           - ''
-          - '{color:normal}需要扫描地理资源, 速率与当前区块以太数量成反比(TIPS:末地以太更多哦~)'
-        output: _FINALTECH_UNORDERED_DUST
+          - '{color:normal}缓慢提取以太'
+        output: _FINALTECH_ETHER
     status:
       lore:
         - '{color:normal}进度: {color:number}{1} {color:normal}/ {color:number}{2}'

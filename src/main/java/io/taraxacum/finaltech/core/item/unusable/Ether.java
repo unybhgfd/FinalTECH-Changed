@@ -69,7 +69,7 @@ public class Ether extends UnusableSlimefunItem implements GEOResource, SimpleVa
 
     @Override
     public boolean isObtainableFromGEOMiner() {
-        return false;
+        return true;
     }
 
     @Nonnull

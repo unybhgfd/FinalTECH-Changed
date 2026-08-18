@@ -35,13 +35,29 @@ public class BoxListener implements Listener {
         Location location = player.getLocation();
         World world = location.getWorld();
         if (world != null) {
-            boolean haveUnorderedDust = Arrays.stream(player.getInventory().getContents())
-                    .anyMatch(FinalTechItems.UNORDERED_DUST::verifyItem); // 前提：开了死亡不掉落
+            ItemStack[] playerItems = player.getInventory().getContents();
+
+            boolean haveUnorderedDust = Arrays.stream(playerItems)
+                    .anyMatch(FinalTechItems.UNORDERED_DUST::verifyItem); // 假设开了死亡不掉落
+            int orderedDustAmount = 0;
+            for (ItemStack itemStack : playerItems) {
+                if (FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
+                    orderedDustAmount += itemStack.getAmount();
+                }
+            }
 
             if (location.getY() < location.getWorld().getMinHeight()) {
                 if (haveUnorderedDust) {
                     // world.dropItem(location, FinalTechItems.BOX.getValidItem());
                     player.getInventory().addItem(FinalTechItems.BOX.getValidItem());
+                    if (orderedDustAmount > 0) {
+                        int playerExpLevel = player.getExpToLevel();
+                        int extraItemAmount = Math.min(orderedDustAmount, playerExpLevel);
+                        player.giveExpLevels(-extraItemAmount);
+                        ItemStack items = FinalTechItems.BOX.getValidItem();
+                        items.setAmount(extraItemAmount);
+                        player.getInventory().addItem(items);
+                    }
                 }
             }
         }

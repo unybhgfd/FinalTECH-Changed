@@ -56,20 +56,23 @@ public class ShineListener implements Listener {
             Entity entity = entityDamageEvent.getEntity();
             Location location = entity.getLocation();
             if (entity instanceof Player player && location.getWorld() != null && location.getY() < location.getWorld().getMinHeight()) {
-                boolean haveBox = false;
+                int boxAmount = 0;
+                int orderedDustAmount = 0;
                 boolean haveShine = false;
                 boolean haveDust = false;
                 for (ItemStack itemStack : player.getInventory().getContents()) {
-                    if (!haveBox && FinalTechItems.BOX.verifyItem(itemStack)) {
-                        haveBox = true;
+                    if (boxAmount == 0 && FinalTechItems.BOX.verifyItem(itemStack)) {
+                        boxAmount += itemStack.getAmount();
                         itemStack.setAmount(0);
                     } else if (FinalTechItems.SHINE.verifyItem(itemStack)) {
                         haveShine = true;
                     } else if (FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
                         haveDust = true;
+                    } else if (FinalTechItems.ORDERED_DUST.verifyItem(itemStack)) {
+                        orderedDustAmount += itemStack.getAmount();
                     }
                 }
-                if (haveBox && !haveShine && !haveDust) {
+                if (boxAmount > 0 && !haveShine && !haveDust) {
                     Research research = FinalTechItems.SHINE.getResearch();
                     Optional<PlayerProfile> playerProfile = PlayerProfile.find(player);
                     boolean unlock; // 是否解锁物品的研究
@@ -78,7 +81,7 @@ public class ShineListener implements Listener {
                     } else unlock = playerProfile.isPresent() && playerProfile.get().getResearches().contains(research);
 
                     int obtain = this.obtainCount.getOrDefault(player, 1); // 获得耀的次数加上1
-                    if (!player.isFlying() && haveBox && !player.isDead() && unlock) {
+                    if (!player.isFlying() && boxAmount > 0 && !player.isDead() && unlock) {
                         Vector nowVector = player.getVelocity().clone();
                         Location nowLocation = player.getLocation();
                         Location newLocation = nowLocation.add( // x&z随机运动，获得耀的次数越多，范围越大
@@ -88,14 +91,17 @@ public class ShineListener implements Listener {
                         player.teleport(newLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
                         player.setVelocity(nowVector);
                         PlayerInventory playerInventory = player.getInventory();
-                        int[] ints = JavaUtil.generateRandomInts(playerInventory.getSize() - playerInventory.getArmorContents().length);
-                        if (!haveShine)
-                            for (int anInt : ints) { // 替换随机槽位为耀
-                                if (ItemStackUtil.isItemNull(playerInventory.getItem(anInt))) {
-                                    playerInventory.setItem(anInt, ItemStackUtil.cloneItem(FinalTechItems.SHINE.getValidItem(), 1));
-                                    break;
-                                }
+                        if (!haveShine) {
+                            int itemAmount = 0;
+                            if (orderedDustAmount > 0) {
+                                itemAmount = Math.min(player.getExpToLevel(), orderedDustAmount);
+                                player.giveExpLevels(-itemAmount);
                             }
+                            itemAmount += 1;
+                            ItemStack items = FinalTechItems.BOX.getValidItem();
+                            items.setAmount(itemAmount);
+                            playerInventory.addItem(items);
+                        }
                         obtain++;
                         this.obtainCount.put(player, obtain);
                     }
