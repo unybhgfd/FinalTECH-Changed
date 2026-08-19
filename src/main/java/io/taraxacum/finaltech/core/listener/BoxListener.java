@@ -34,14 +34,14 @@ public class BoxListener implements Listener {
         Player player = playerDeathEvent.getEntity();
         Location location = player.getLocation();
         World world = location.getWorld();
-        if (world != null) {
+        if (world != null && location.getY() < location.getWorld().getMinHeight()) {
             ItemStack[] playerItems = player.getInventory().getContents();
 
             boolean haveUnorderedDust = false;
             boolean haveBox = false;
             int orderedDustAmount = 0;
             for (ItemStack itemStack : playerItems) {
-                if (FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
+                if (FinalTechItems.ORDERED_DUST.verifyItem(itemStack)) {
                     orderedDustAmount += itemStack.getAmount();
                 } else if (FinalTechItems.BOX.verifyItem(itemStack)) {
                     haveBox = true;
@@ -50,20 +50,16 @@ public class BoxListener implements Listener {
                 }
             }
 
-            if (location.getY() < location.getWorld().getMinHeight()) {
-                if (haveUnorderedDust) {
-                    // world.dropItem(location, FinalTechItems.BOX.getValidItem());
-                    player.getInventory().addItem(FinalTechItems.BOX.getValidItem());
-                    if (orderedDustAmount > 0 && !haveBox) {
-                        int playerExpLevel = player.getLevel();
-                        int extraItemAmount = Math.min(orderedDustAmount, playerExpLevel);
-                        extraItemAmount = Math.min(extraItemAmount, 64);
-                        player.giveExpLevels(-extraItemAmount);
-                        ItemStack items = FinalTechItems.BOX.getValidItem();
-                        items.setAmount(extraItemAmount);
-                        player.getInventory().addItem(items);
-                    }
-                }
+            if (haveUnorderedDust && orderedDustAmount > 0 && !haveBox) {
+                // world.dropItem(location, FinalTechItems.BOX.getValidItem());
+                player.getInventory().addItem(FinalTechItems.BOX.getValidItem());
+                int playerExpLevel = player.getLevel();
+                int extraItemAmount = Math.min(orderedDustAmount, playerExpLevel);
+                extraItemAmount = Math.min(extraItemAmount, 64);
+                player.giveExpLevels(-extraItemAmount);
+                ItemStack items = FinalTechItems.BOX.getValidItem();
+                items.setAmount(extraItemAmount);
+                player.getInventory().addItem(items);
             }
         }
     }
