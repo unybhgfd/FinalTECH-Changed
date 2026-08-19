@@ -59,7 +59,7 @@ public class ShineListener implements Listener {
                 int boxAmount = 0;
                 int orderedDustAmount = 0;
                 boolean haveShine = false;
-                boolean haveDust = false;
+                boolean haveUnorderedDust = false;
                 for (ItemStack itemStack : player.getInventory().getContents()) {
                     if (boxAmount == 0 && FinalTechItems.BOX.verifyItem(itemStack)) {
                         boxAmount += itemStack.getAmount();
@@ -67,12 +67,12 @@ public class ShineListener implements Listener {
                     } else if (FinalTechItems.SHINE.verifyItem(itemStack)) {
                         haveShine = true;
                     } else if (FinalTechItems.UNORDERED_DUST.verifyItem(itemStack)) {
-                        haveDust = true;
+                        haveUnorderedDust = true;
                     } else if (FinalTechItems.ORDERED_DUST.verifyItem(itemStack)) {
                         orderedDustAmount += itemStack.getAmount();
                     }
                 }
-                if (boxAmount > 0 && !haveShine && !haveDust) {
+                if (boxAmount > 0 && !haveShine && !haveUnorderedDust) {
                     Research research = FinalTechItems.SHINE.getResearch();
                     Optional<PlayerProfile> playerProfile = PlayerProfile.find(player);
                     boolean unlock; // 是否解锁物品的研究
@@ -90,18 +90,20 @@ public class ShineListener implements Listener {
                                 FinalTechChanged.getRandom().nextDouble() * this.baseTeleportRange * (1 + obtain * this.mulTeleportRange) - this.baseTeleportRange * (1 + obtain * this.mulTeleportRange));
                         player.teleport(newLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
                         player.setVelocity(nowVector);
+
                         PlayerInventory playerInventory = player.getInventory();
-                        if (!haveShine) {
-                            int itemAmount = 0;
-                            if (orderedDustAmount > 0) {
-                                itemAmount = Math.min(player.getExpToLevel(), orderedDustAmount);
-                                player.giveExpLevels(-itemAmount);
-                            }
-                            itemAmount += 1;
-                            ItemStack items = FinalTechItems.BOX.getValidItem();
-                            items.setAmount(itemAmount);
-                            playerInventory.addItem(items);
+                        int itemAmount = 0;
+                        if (orderedDustAmount > 0) {
+                            itemAmount = Math.min(player.getLevel(), orderedDustAmount);
+                            itemAmount = Math.min(itemAmount, 64);
+                            itemAmount = Math.min(itemAmount, boxAmount);
+                            player.giveExpLevels(-itemAmount);
                         }
+                        itemAmount += 1;
+                        ItemStack items = FinalTechItems.SHINE.getValidItem();
+                        items.setAmount(itemAmount);
+                        playerInventory.addItem(items);
+                            
                         obtain++;
                         this.obtainCount.put(player, obtain);
                     }
