@@ -50,16 +50,18 @@ public class BoxListener implements Listener {
                 }
             }
 
-            if (haveUnorderedDust && orderedDustAmount > 0 && !haveBox) {
+            if (haveUnorderedDust && !haveBox) {
                 // world.dropItem(location, FinalTechItems.BOX.getValidItem());
                 player.getInventory().addItem(FinalTechItems.BOX.getValidItem());
-                int playerExpLevel = player.getLevel();
-                int extraItemAmount = Math.min(orderedDustAmount, playerExpLevel);
-                extraItemAmount = Math.min(extraItemAmount, 64);
-                player.giveExpLevels(-extraItemAmount);
-                ItemStack items = FinalTechItems.BOX.getValidItem();
-                items.setAmount(extraItemAmount);
-                player.getInventory().addItem(items);
+                if (orderedDustAmount > 0) {
+                    int playerExpLevel = player.getLevel();
+                    int extraItemAmount = Math.min(orderedDustAmount, playerExpLevel);
+                    extraItemAmount = Math.min(extraItemAmount, 64);
+                    player.giveExpLevels(-extraItemAmount);
+                    ItemStack items = FinalTechItems.BOX.getValidItem();
+                    items.setAmount(extraItemAmount);
+                    player.getInventory().addItem(items);
+                }
             }
         }
     }
