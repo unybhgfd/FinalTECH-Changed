@@ -3234,6 +3234,7 @@ items:
         name: '{color:passive}机制'
         lore:
           - '{color:normal}若中途切换物品，则进度{color:number}清零'
+          - '{color:normal}进度初始化为0，小于0会重置为零'
       '5':
         name: '{color:passive}机制'
         lore:
